@@ -2,19 +2,21 @@ class V1::ContactsController < ApplicationController
  
  
  def index
-  @contacts = Contact.all
+  @contacts = current_user.contacts
   
-  render json: @contacts, status: :ok
+  render :index, status: :ok
+#  render json: @contacts, status: :ok
  end
  
  def create
-  @contact = Contact.new(contact_params)
+  @contact = current_user.contacts.build(contact_params)
   @contact.save
-  render json: @contact, status: :created
+  render :create, status: :created
+#  render json: @contact, status: :created
  end
  
  def destroy
-  @contact = Contact.where(id: params[:id]).first
+  @contact = current_user.contacts.where(id: params[:id]).first
   if @contact.destroy
    #Header content
    head(:ok)
